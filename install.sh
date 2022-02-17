@@ -52,3 +52,7 @@ pacman -S rofi dmenu --noconfirm
 #install network manager and enable it
 pacman -S networkmanager network-manager-applet --noconfirm
 systemctl enable NetworkManager
+#sudo
+pacman -S sudo --noconfirm
+echo "Must update sudo config with visudo"
+useradd -mG wheel $user
