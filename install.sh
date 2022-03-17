@@ -1,17 +1,17 @@
 #!/bin/bash
 
-hostname=
-user=
-
-
+printf "User: "
+read user
+printf "Hostname: "
+read hostname
 
 #time zone
 ln -sf usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 hwclock --systohc
 echo "Time zone updated..."
 #localization 
-sed -i 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' /etc/locale.gen #uncomment en_US UTF-8 line
-sed -i 's/#pt_BR.UTF-8 UTF-8/pt_PT.UTF-8 UTF-8/g' /etc/locale.gen #uncomment pt_BR UTF-8 line
+echo "pt_BR.UTF-8 UTF-8" >> /etc/locale.gen
+echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 locale-gen
 echo LANG=pt_BR.UTF-8 > /etc/locale.conf
 echo "Localization configured"
@@ -31,7 +31,7 @@ pacman -S xdg-utils xdg-user-dirs --noconfirm
 #browser
 pacman -S firefox --noconfirm
 #i3 gaps and xorg
-pacman -S xorg xorg-init xterm i3-gaps i3-status ttf-dejavu --noconfirm
+pacman -S xorg xorg-xinit xterm i3-gaps ttf-dejavu --noconfirm
 #lightdm and greeter
 pacman -S lightdm lightdm-webkit2-greeter --noconfirm
 systemctl enable lightdm.service
@@ -44,15 +44,9 @@ pacman -S alacritty --noconfirm
 #rofi and dmenu - dmenu if rofi stops working, just in case
 pacman -S rofi dmenu --noconfirm
 
-
-
-
-
-
 #install network manager and enable it
 pacman -S networkmanager network-manager-applet --noconfirm
 systemctl enable NetworkManager
 #sudo
-pacman -S sudo --noconfirm
 echo "Must update sudo config with visudo"
 useradd -mG wheel $user
